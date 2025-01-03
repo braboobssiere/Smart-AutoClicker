@@ -23,6 +23,12 @@ jobs:
       run: |
         echo "${{ secrets.RELEASE_KEYSTORE }}" > smartautoclicker.jks.asc
         gpg --batch --yes --decrypt --passphrase ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }} --output smartautoclicker/smartautoclicker.jks smartautoclicker.jks.asc
+        if [ -f smartautoclicker/smartautoclicker.jks ]; then
+          echo "Decryption successful!"
+        else
+          echo "Decryption failed!"
+          exit 1
+        fi
         # gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}" --batch smartautoclicker.jks.asc > smartautoclicker/smartautoclicker.jks
 
     - name: Build with Gradle
