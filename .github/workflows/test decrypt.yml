@@ -9,7 +9,7 @@ jobs:
     
     permissions:
       contents: read  # Allow read permissions to access files
-      
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -28,5 +28,38 @@ jobs:
           echo "Decryption successful!"
         else
           echo "Decryption failed!"
+          exit 1
+        fi
+
+    - name: Validate Keystore Password
+      run: |
+        echo "Validating keystore password..."
+        keytool -list -keystore smartautoclicker/smartautoclicker.jks -storepass "${{ secrets.SIGNING_STORE_PASSWORD }}" -alias "${{ secrets.SIGNING_KEY_ALIAS }}" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+          echo "Keystore password is valid!"
+        else
+          echo "Keystore password is invalid!"
+          exit 1
+        fi
+
+    - name: Validate Key Alias
+      run: |
+        echo "Validating key alias..."
+        keytool -list -keystore smartautoclicker/smartautoclicker.jks -storepass "${{ secrets.SIGNING_STORE_PASSWORD }}" -alias "${{ secrets.SIGNING_KEY_ALIAS }}" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+          echo "Key alias is valid!"
+        else
+          echo "Key alias is invalid!"
+          exit 1
+        fi
+
+    - name: Validate Key Password
+      run: |
+        echo "Validating key password..."
+        keytool -list -keystore smartautoclicker/smartautoclicker.jks -storepass "${{ secrets.SIGNING_STORE_PASSWORD }}" -alias "${{ secrets.SIGNING_KEY_ALIAS }}" -keypass "${{ secrets.SIGNING_KEY_PASSWORD }}" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+          echo "Key password is valid!"
+        else
+          echo "Key password is invalid!"
           exit 1
         fi
