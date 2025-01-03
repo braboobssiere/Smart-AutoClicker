@@ -1,0 +1,79 @@
+name: Bug report
+description: Create a report to help us improve
+labels: ["bug"]
+assignees:
+  - Nain57
+body:
+  - type: input
+    id: app-version
+    attributes:
+      label: Version of Smart AutoClicker
+      placeholder: "3.0.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Apk
+      description: Installation source. No support is provided on other installation sources and the code itself
+      options:
+        - PlayStore
+        - F-Droid
+        - Github
+      default: 0
+    validations:
+      required: true
+
+  - type: input
+    id: device-type
+    attributes:
+      label: Device brand and model
+      placeholder: OnePlus 10 Pro
+    validations:
+      required: true
+
+  - type: input
+    id: android-version
+    attributes:
+      label: Version of your Android OS
+      description: Can usually be found under Settings -> About -> Versions
+      placeholder: "14"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: What kind of bug have you encountered ?
+      options:
+        - Smart scenario
+        - Dumb scenario
+        - Backup
+        - Other
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Describe what happened?
+      description: |
+        Describe precise steps to reproduce the issue. You can also attach screenshots/video showing how to reproduce it. \
+        If your issue is about the behaviour of a condition/action/event, attach a scenario backup zip file with the minimal \
+        elements to reproduce the bug. Do not provide your full scenario with all your events, I won't be able to \
+        understand what is wrong.
+      placeholder: Tell us what's wrong!
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happened
+    attributes:
+      label: Describe what should have happened?
+      description: Describe what you expect to happen
+      placeholder: Tell us own you think the application should have reacted
+    validations:
+      required: true
