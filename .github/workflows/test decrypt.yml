@@ -1,0 +1,32 @@
+name: Test Decryption
+
+on:
+  workflow_dispatch:  # Triggered manually from GitHub Actions UI
+
+jobs:
+  test-decryption:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read  # Allow read permissions to access files
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Create encrypted keystore file
+      run: echo "${{ secrets.RELEASE_KEYSTORE }}" > smartautoclicker.jks.asc
+
+    - name: Decrypt Keystore
+      run: |
+        echo "Decrypting keystore..."
+        gpg --batch --yes --decrypt --passphrase ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }} --output smartautoclicker/smartautoclicker.jks smartautoclicker.jks.asc
+
+    - name: Validate Decryption
+      run: |
+        if [ -f smartautoclicker/smartautoclicker.jks ]; then
+          echo "Decryption successful!"
+        else
+          echo "Decryption failed!"
+          exit 1
+        fi
