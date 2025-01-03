@@ -22,9 +22,7 @@ jobs:
     - name: Restore keystore
       run: |
         echo "${{ secrets.RELEASE_KEYSTORE }}" > smartautoclicker.jks.asc
-        echo "${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}" > keystore_passphrase.txt
-        gpg --batch --yes --decrypt --passphrase-file keystore_passphrase.txt smartautoclicker.jks.asc > smartautoclicker/smartautoclicker.jks
-        rm keystore_passphrase.txt
+        gpg --batch --yes --decrypt --passphrase ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }} smartautoclicker.jks.asc > smartautoclicker/smartautoclicker.jks
         # gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}" --batch smartautoclicker.jks.asc > smartautoclicker/smartautoclicker.jks
 
     - name: Build with Gradle
